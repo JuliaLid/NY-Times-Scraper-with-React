@@ -8,7 +8,7 @@ import { List, ListItem } from "../../components/List";
 import { Input, FormBtn } from "../../components/Form";
 import axios from 'axios';
 const APIKEY = "b9f91d369ff59547cd47b931d8cbc56b:0:74623931";
-const BASEURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=" +
+const BASEURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?max=5&api-key=" +
   APIKEY + "&q=";
 
 class Article extends Component {
@@ -20,20 +20,39 @@ class Article extends Component {
     endYear: "",
     title:"",
     date: "",
-    url:""
+    url:"",
+    id:""
   };
 
   // componentDidMount() {
   //   this.loadArticles();
   // };
 
+  // populateDatabase = () => {
+    
+  //   this.state.articles.map(article => {
+  //         this.setState ({
+  //           title:article.headline.main,
+  //           date: article.pub_date,
+  //           url: web.url,
+  //           id:_id
+  //         })
+
+  //     })
+
+
+  // //     {
+  // //   API.saveBook({
+  // //   })
+  // //     .then(res => this.loadArticles())
+  // //     .catch(err => console.log(err));
+  //  };
+
   findArticles = query => {
     const queryURL = BASEURL + query;
     console.log(queryURL);
     return axios.get(queryURL)
     //  console.log(queryURL)
-    
-  
   }
 
   loadArticles = () => {
@@ -61,9 +80,14 @@ class Article extends Component {
      event.preventDefault();
     this.findArticles(this.state.topic)
       .then(res => {
-        console.log(res.data);
-        this.setState({ articles: res.data })
+        // console.log(res.data.response.docs);
+        this.setState({ articles: res.data.response.docs })
         console.log(this.state.articles); 
+        console.log(this.state.articles[0].headline.main); 
+        console.log(this.state.articles[0].pub_date); 
+        console.log(this.state.articles[0].web_url); 
+        console.log(this.state.articles[0]._id); 
+        // this.populateDatabase();
       })  
       .catch(err => console.log(err));
  
@@ -137,22 +161,26 @@ class Article extends Component {
             <Jumbotron>
               <h1>Results</h1>
             </Jumbotron>
-            {this.state.articles.length ? (
-              <List>
-                {this.state.articles.map(article => (
-                  <ListItem key={article._id}>
-                    <Link to={"/articles/" + article._id}>
-                     
-                        {article.title} , {article.date} , {article.url}
-                      
-                    </Link>
+            {!this.state.articles.length ? (
+                   <h3>No Results to Display</h3>
+                ) :(          
+               <List>
+                 {this.state.articles.map(article => 
+                  
+                  <ListItem 
+                      key={article._id}
+                      title = {article.headline.main}
+                      date = {article.pub_date}
+                      href = {article.web_url}
+                    >
+
+                    <Link to={"/articles/" + article._id}/>
+                  
                     <DeleteBtn onClick={() => this.deleteArticle(article._id)} />
                   </ListItem>
-                ))}
+                 )}
               </List>
-            ) : (
-              <h3>No Results to Display</h3>
-            )}
+            )} 
           </Col>
         </Row>
       </Container>
