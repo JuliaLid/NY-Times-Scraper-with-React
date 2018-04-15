@@ -6,6 +6,10 @@ import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
 import { Input, FormBtn } from "../../components/Form";
+import axios from 'axios';
+const APIKEY = "b9f91d369ff59547cd47b931d8cbc56b:0:74623931";
+const BASEURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=" +
+  APIKEY + "&q=";
 
 class Article extends Component {
   state = {
@@ -24,9 +28,12 @@ class Article extends Component {
   // };
 
   findArticles = query => {
-    API.findArticles(query)
-    .then(res => this.setState({ result: res.data }))
-    .catch(err => console.log(err));
+    const queryURL = BASEURL + query;
+    console.log(queryURL);
+    return axios.get(queryURL)
+    //  console.log(queryURL)
+    
+  
   }
 
   loadArticles = () => {
@@ -52,11 +59,15 @@ class Article extends Component {
 
   handleFormSubmit = event => {
      event.preventDefault();
-    API.findArticles(this.state.topic)
-      .then(res => this.setState({ articles: res.data }))
+    this.findArticles(this.state.topic)
+      .then(res => {
+        console.log(res.data);
+        this.setState({ articles: res.data })
+        console.log(this.state.articles); 
+      })  
       .catch(err => console.log(err));
-
-       console.log(this.state.articles); 
+ 
+       
     // if (this.state.topic )
     //   // && this.state.startYear && this.state.endYear)
     //    {

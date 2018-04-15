@@ -1,4 +1,8 @@
 const db = require("../models");
+const axios = require("axios");
+const APIKEY = "b9f91d369ff59547cd47b931d8cbc56b:0:74623931";
+const BASEURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=" +
+  APIKEY + "&q=";
 
 // Defining methods for the articleController
 module.exports = {
@@ -32,6 +36,13 @@ module.exports = {
       .findById({ _id: req.params.id })
       .then(dbModel => dbModel.remove())
       .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+  searchAll: function (req, res) {
+    console.log(req);
+    axios
+      .get(BASEURL, { params: req.query })
+      .then(({ data: { results } })=> res.json(results))
       .catch(err => res.status(422).json(err));
   }
 };

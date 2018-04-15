@@ -10,10 +10,6 @@ export default {
     return axios.get("/api/articles");
   },
 
-  // findArticles: function(query){
-  //   console.log(query);
-  //   return axios.get("/api/articles/", {params: {q:query}});
-  // },
   findArticles: function(query){
     console.log(BASEURL+query);
     return axios.get("/api/articles/", {params: {q:query}})
