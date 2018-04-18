@@ -28,9 +28,13 @@ class Article extends Component {
   //   this.loadArticles();
   // };
 
-  populateDatabase = (newArticle) => {
-    console.log("Saving Article");  
-    API.saveArticle (newArticle)
+  populateDatabase = id => {
+    console.log("I'm triggered ", id);
+    // console.log(this.state.articles);
+    let result = this.prepareArticle(id)
+    console.log(result);  
+    // console.log("Saving Article");  
+    API.saveArticle (result)
     // .then(res => this.loadArticles())
     // .then(res => console.log("Success!"))
     
@@ -45,24 +49,38 @@ class Article extends Component {
 
   // console.log(this.state.articles); 
        
-  setArticleState = (articlesArray) => {
-    
+  prepareArticle = (id) => {
+    console.log("Let me find article");
+    let articlesArray = this.state.articles;
     for (let i = 0; i<articlesArray.length; i ++){
-
-      //  console.log(articlesArray[i].headline.main); 
-      //   console.log(articlesArray[i].pub_date); 
-      //   console.log(articlesArray[0].web_url); 
-      //   console.log(this.state.articles[0]._id); 
-       let newArticle = {
-          title:articlesArray[i].headline.main,
-          date: articlesArray[i].pub_date,
-          url:articlesArray[i].web_url,
-          id:articlesArray[i]._id
-       }
-       console.log(newArticle);
-       this.populateDatabase(newArticle);
-    }
+        if (id === articlesArray[i]._id) {
+           let newArticle = {
+              title:articlesArray[i].headline.main,
+              date: articlesArray[i].pub_date,
+              url:articlesArray[i].web_url,
+              id:articlesArray[i]._id
+           }
+          //  console.log(newArticle);
+          return newArticle;
+        }
+      }
+   
   }
+  
+  // setArticleState = (articlesArray) => {
+    
+  //   for (let i = 0; i<articlesArray.length; i ++){
+
+  //      let newArticle = {
+  //         title:articlesArray[i].headline.main,
+  //         date: articlesArray[i].pub_date,
+  //         url:articlesArray[i].web_url,
+  //         id:articlesArray[i]._id
+  //      }
+  //      console.log(newArticle);
+  //      this.populateDatabase(newArticle);
+  //   }
+  // }
 
   findArticles = query => {
     const queryURL = BASEURL + query;
@@ -99,13 +117,9 @@ class Article extends Component {
       .then(res => {
         // console.log(res.data.response.docs);
         this.setState({ articles: res.data.response.docs })
-        // console.log("line 104 ", this.state.articles);
-        this.setArticleState(this.state.articles);
-        // console.log(this.state.articles); 
-        // console.log(this.state.articles[0].headline.main); 
-        // console.log(this.state.articles[0].pub_date); 
-        // console.log(this.state.articles[0].web_url); 
-        // console.log(this.state.articles[0]._id); 
+        
+        // this.setArticleState(this.state.articles);
+      
         // this.populateDatabase();
       })  
       .catch(err => console.log(err));
@@ -191,14 +205,9 @@ class Article extends Component {
                       href= {article.web_url}
                       title = {article.headline.main} 
                       >
-                  
-                    
-         
-                  
                     <SaveBtn 
-
                     id = {article._id}
-                    onClick={() => this.deleteArticle(article._id)} />
+                    onClick={() => this.populateDatabase(article._id)} />
                   </ListItem>
                  ))}
               </List>
