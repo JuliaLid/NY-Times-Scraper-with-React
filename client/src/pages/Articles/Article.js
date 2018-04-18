@@ -28,25 +28,41 @@ class Article extends Component {
   //   this.loadArticles();
   // };
 
-  // populateDatabase = () => {
+  populateDatabase = (newArticle) => {
+    console.log("Saving Article");  
+    API.saveArticle (newArticle)
+    // .then(res => this.loadArticles())
+    // .then(res => console.log("Success!"))
     
-  //   this.state.articles.map(article => {
-  //         this.setState ({
-  //           title:article.headline.main,
-  //           date: article.pub_date,
-  //           url: web.url,
-  //           id:_id
-  //         })
-
-  //     })
 
 
-  // //     {
-  // //   API.saveBook({
-  // //   })
-  // //     .then(res => this.loadArticles())
-  // //     .catch(err => console.log(err));
-  //  };
+  //     {
+  //   API.saveBook({
+  //   })
+  //     .then(res => this.loadArticles())
+  //     .catch(err => console.log(err));
+   };
+
+  // console.log(this.state.articles); 
+       
+  setArticleState = (articlesArray) => {
+    
+    for (let i = 0; i<articlesArray.length; i ++){
+
+      //  console.log(articlesArray[i].headline.main); 
+      //   console.log(articlesArray[i].pub_date); 
+      //   console.log(articlesArray[0].web_url); 
+      //   console.log(this.state.articles[0]._id); 
+       let newArticle = {
+          title:articlesArray[i].headline.main,
+          date: articlesArray[i].pub_date,
+          url:articlesArray[i].web_url,
+          id:articlesArray[i]._id
+       }
+       console.log(newArticle);
+       this.populateDatabase(newArticle);
+    }
+  }
 
   findArticles = query => {
     const queryURL = BASEURL + query;
@@ -83,11 +99,13 @@ class Article extends Component {
       .then(res => {
         // console.log(res.data.response.docs);
         this.setState({ articles: res.data.response.docs })
-        console.log(this.state.articles); 
-        console.log(this.state.articles[0].headline.main); 
-        console.log(this.state.articles[0].pub_date); 
-        console.log(this.state.articles[0].web_url); 
-        console.log(this.state.articles[0]._id); 
+        // console.log("line 104 ", this.state.articles);
+        this.setArticleState(this.state.articles);
+        // console.log(this.state.articles); 
+        // console.log(this.state.articles[0].headline.main); 
+        // console.log(this.state.articles[0].pub_date); 
+        // console.log(this.state.articles[0].web_url); 
+        // console.log(this.state.articles[0]._id); 
         // this.populateDatabase();
       })  
       .catch(err => console.log(err));
