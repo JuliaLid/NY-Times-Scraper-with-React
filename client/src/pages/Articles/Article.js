@@ -50,9 +50,9 @@ class Article extends Component {
 
   findArticles = query => {
     const queryURL = BASEURL + query;
-    console.log(queryURL);
+    // console.log(query);
+    // console.log(queryURL);
     return axios.get(queryURL)
-    //  console.log(queryURL)
   }
 
   loadArticles = () => {
@@ -78,7 +78,8 @@ class Article extends Component {
 
   handleFormSubmit = event => {
      event.preventDefault();
-    this.findArticles(this.state.topic)
+     const fullQuery = this.state.topic + "&begin_date=" + this.state.startYear + "0101&end_date="+ this.state.endYear + "0101";
+    this.findArticles(fullQuery)
       .then(res => {
         // console.log(res.data.response.docs);
         this.setState({ articles: res.data.response.docs })
