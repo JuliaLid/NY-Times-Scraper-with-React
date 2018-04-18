@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import DeleteBtn from "../../components/DeleteBtn";
+import SaveBtn from "../../components/SaveBtn";
 import Jumbotron from "../../components/Jumbotron";
 import API from "../../utils/API";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
 import { Input, FormBtn } from "../../components/Form";
@@ -94,8 +94,8 @@ class Article extends Component {
 
   handleFormSubmit = event => {
      event.preventDefault();
-     const fullQuery = this.state.topic + "&begin_date=" + this.state.startYear + "0101&end_date="+ this.state.endYear + "0101";
-    this.findArticles(fullQuery)
+     const fullQuery = this.state.topic + "&begin_date=" + this.state.startYear + "0101&end_date="+   this.state.endYear + "0101";
+     this.findArticles(fullQuery)
       .then(res => {
         // console.log(res.data.response.docs);
         this.setState({ articles: res.data.response.docs })
@@ -184,20 +184,23 @@ class Article extends Component {
                    <h3>No Results to Display</h3>
                 ) :(          
                <List>
-                 {this.state.articles.map(article => 
+                 {this.state.articles.map(article =>( 
                   
                   <ListItem 
-                      key={article._id}
-                      title = {article.headline.main}
-                      date = {article.pub_date}
-                      href = {article.web_url}
-                    >
-
-                    <Link to={"/articles/" + article._id}/>
+                      key={article._id} 
+                      href= {article.web_url}
+                      title = {article.headline.main} 
+                      >
                   
-                    <DeleteBtn onClick={() => this.deleteArticle(article._id)} />
+                    
+         
+                  
+                    <SaveBtn 
+
+                    id = {article._id}
+                    onClick={() => this.deleteArticle(article._id)} />
                   </ListItem>
-                 )}
+                 ))}
               </List>
             )} 
           </Col>

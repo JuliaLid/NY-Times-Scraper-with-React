@@ -21,14 +21,14 @@ module.exports = {
   },
   create: function(req, res) {
     console.log("line 23 Controller ", req.body);
-    db.Article.create (req.body, function (err,data){
-      if (err) {
-        console.log(err);
-      } else {
-        console.log("I'm saved");
-      }
-    })
-      // .create(req.body)
+    // db.Article.create (req.body, function (err,data){
+    //   if (err) {
+    //     console.log(err);
+    //   } else {
+    //     console.log("I'm saved");
+    //   }
+    // })
+      db.Article.create(req.body)
       // .then(dbModel => res.json(dbModel))
       // .then(dbModel => {
       //   console.log(dbModel)})
