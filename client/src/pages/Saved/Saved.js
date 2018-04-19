@@ -10,28 +10,27 @@ class Saved extends Component {
   state = {
     articles: []
   };
-  // When this component mounts, grab the book with the _id of this.props.match.params.id
-  // e.g. localhost:3000/books/599dcb67f0f16317844583fc
+
+  //Load saved articles on load
   componentDidMount() {
     this.loadArticles()
   }
-
+  
+  //Load articles from database
   loadArticles = () => {
     console.log("I'm triggered")
     API.getArticles()
-      .then(res => this.setState({ articles: res.data})
-       
-      )
-      // .then( console.log(this.state.articles))
-      .catch(err => console.log(err));
+   .then(res => this.setState({ articles: res.data}))
+   .catch(err => console.log(err));
   };
 
+  //Delete an article from DB using MongoDB Object ID
   deleteArticle = id => {
     API.deleteArticle(id)
       .then(res => this.loadArticles())
       .catch(err => console.log(err));
   };
-
+  //Render 
   render() {
     return (
       <Container fluid>

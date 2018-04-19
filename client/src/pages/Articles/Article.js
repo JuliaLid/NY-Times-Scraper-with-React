@@ -27,26 +27,18 @@ class Article extends Component {
 
   // }
 
+  //Save article to DB on click
   populateDatabase = id => {
     console.log("I'm triggered ", id);
-    // console.log(this.state.articles);
     let result = this.prepareArticle(id)
     console.log(result);  
     // console.log("Saving Article");  
     API.saveArticle (result)
     // .then(res => this.deactivateButton())
     // .then(res => console.log("Success!"))
-    
+  };
 
-
-  //     {
-  //   API.saveBook({
-  //   })
-  //     .then(res => this.loadArticles())
-  //     .catch(err => console.log(err));
-   };
-
-       
+   //Helper function to isolate data specified in the schema    
   prepareArticle = (id) => {
     console.log("Let me find article");
     let articlesArray = this.state.articles;
@@ -61,19 +53,15 @@ class Article extends Component {
           return newArticle;
         }
       }
-   
   }
   
- 
+  //Axios HTTP call to NY Times API
   findArticles = query => {
     const queryURL = BASEURL + query;
-    // console.log(query);
-    // console.log(queryURL);
     return axios.get(queryURL)
   }
 
-  
-
+   //Save user's input 
   handleInputChange = event => {
     const { name, value } = event.target;
     this.setState({
@@ -81,50 +69,18 @@ class Article extends Component {
     });
   };
 
+  //Handle form submission on click
   handleFormSubmit = event => {
      event.preventDefault();
      const fullQuery = this.state.topic + "&begin_date=" + this.state.startYear + "0101&end_date="+   this.state.endYear + "0101";
      this.findArticles(fullQuery)
       .then(res => {
-        // console.log(res.data.response.docs);
         this.setState({ articles: res.data.response.docs })
-        
-        // this.setArticleState(this.state.articles);
-      
-        // this.populateDatabase();
       })  
       .catch(err => console.log(err));
- 
-       
-    // if (this.state.topic )
-    //   // && this.state.startYear && this.state.endYear)
-    //    {
-    //   API.findArticles({
-    //     topic: this.state.title
-    //     // ,
-    //     // date: this.state.date,
-    //     // url: this.state.url
-    //   })
-    //     .then(res => 
-    //       this.loadArticles())
-    //     .catch(err => console.log(err));
-    // }
   };
-  // handleFormSubmit = event => {
-  //   event.preventDefault();
-  //   if (this.state.topic )
-  //     // && this.state.startYear && this.state.endYear)
-  //      {
-  //     API.saveArticle({
-  //       title: this.state.title,
-  //       date: this.state.date,
-  //       url: this.state.url
-  //     })
-  //       .then(res => this.loadArticles())
-  //       .catch(err => console.log(err));
-  //   }
-  // };
 
+  //Render function
   render() {
     return (
       <Container fluid>
