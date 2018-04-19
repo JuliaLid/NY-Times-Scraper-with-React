@@ -7,6 +7,7 @@ export default {
   
   // Gets all books
   getArticles: function() {
+    console.log("line 20 - getting articles")
     return axios.get("/api/articles");
   },
 
@@ -17,6 +18,7 @@ export default {
   },
   // Gets the book with the given id
   getArticle: function(id) {
+   
     return axios.get("/api/articles/" + id);
   },
   // Deletes the book with the given id

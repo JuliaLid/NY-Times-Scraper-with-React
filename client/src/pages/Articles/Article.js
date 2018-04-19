@@ -2,14 +2,16 @@ import React, { Component } from "react";
 import SaveBtn from "../../components/SaveBtn";
 import Jumbotron from "../../components/Jumbotron";
 import API from "../../utils/API";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
 import { Input, FormBtn } from "../../components/Form";
 import axios from 'axios';
+
 const APIKEY = "b9f91d369ff59547cd47b931d8cbc56b:0:74623931";
 const BASEURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?max=5&api-key=" +
   APIKEY + "&q=";
+
 
 class Article extends Component {
   state = {
@@ -18,10 +20,6 @@ class Article extends Component {
     topic: "",
     startYear: "",
     endYear: "",
-    title:"",
-    date: "",
-    url:"",
-    id:""
   };
 
   // componentDidMount() {
@@ -47,7 +45,6 @@ class Article extends Component {
   //     .catch(err => console.log(err));
    };
 
-  // console.log(this.state.articles); 
        
   prepareArticle = (id) => {
     console.log("Let me find article");
@@ -60,28 +57,13 @@ class Article extends Component {
               url:articlesArray[i].web_url,
               id:articlesArray[i]._id
            }
-          //  console.log(newArticle);
           return newArticle;
         }
       }
    
   }
   
-  // setArticleState = (articlesArray) => {
-    
-  //   for (let i = 0; i<articlesArray.length; i ++){
-
-  //      let newArticle = {
-  //         title:articlesArray[i].headline.main,
-  //         date: articlesArray[i].pub_date,
-  //         url:articlesArray[i].web_url,
-  //         id:articlesArray[i]._id
-  //      }
-  //      console.log(newArticle);
-  //      this.populateDatabase(newArticle);
-  //   }
-  // }
-
+ 
   findArticles = query => {
     const queryURL = BASEURL + query;
     // console.log(query);
@@ -89,19 +71,7 @@ class Article extends Component {
     return axios.get(queryURL)
   }
 
-  loadArticles = () => {
-    API.getArticles()
-      .then(res =>
-        this.setState({ articles: res.data, title: "", date: "", url: "" })
-      )
-      .catch(err => console.log(err));
-  };
-
-  deleteArticle = id => {
-    API.Article(id)
-      .then(res => this.deleteArticle())
-      .catch(err => console.log(err));
-  };
+  
 
   handleInputChange = event => {
     const { name, value } = event.target;
@@ -203,8 +173,10 @@ class Article extends Component {
                   <ListItem 
                       key={article._id} 
                       href= {article.web_url}
-                      title = {article.headline.main} 
+                      title = {article.headline.main}  
+                      date={article.pub_date}                  
                       >
+                      
                     <SaveBtn 
                     id = {article._id}
                     onClick={() => this.populateDatabase(article._id)} />
@@ -212,6 +184,9 @@ class Article extends Component {
                  ))}
               </List>
             )} 
+            <Link to={"/articles/"}>
+              Click to see Saved Articles 
+            </Link>
           </Col>
         </Row>
       </Container>

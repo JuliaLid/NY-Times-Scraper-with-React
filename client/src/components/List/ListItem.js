@@ -9,5 +9,6 @@ export const ListItem = props => (
     <a rel="noreferrer noopener" target="_blank" href={props.href}>
            <h4>{props.title}</h4>
           </a>
+    <p>{props.date}</p>
   </li>
 );

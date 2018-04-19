@@ -7,11 +7,22 @@ const BASEURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?api-ke
 // Defining methods for the articleController
 module.exports = {
   findAll: function(req, res) {
+    console.log("almost there ");
+    
+
     db.Article
       .find(req.query)
       .sort({ date: -1 })
+  //     .exec(function(err, doc) {
+  //       if(err){
+  //           console.log(err);
+  //       } else{
+  //          console.log(doc)
+  //       }
+  // });
+      // .then(console.log(res.json))
       .then(dbModel => res.json(dbModel))
-      .catch(err => res.status(422).json(err));
+      // .catch(err => res.status(422).json(err));
   },
   findById: function(req, res) {
     db.Article
