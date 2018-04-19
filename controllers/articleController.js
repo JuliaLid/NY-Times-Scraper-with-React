@@ -52,9 +52,11 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   remove: function(req, res) {
+    console.log("Delete me ",req.params.id)
     db.Article
-      .findById({ _id: req.params.id })
-      .then(dbModel => dbModel.remove())
+      // .findById({ _id: req.params.id })
+      .remove({ _id: req.params.id })
+      // .then(dbModel => dbModel.remove())
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },

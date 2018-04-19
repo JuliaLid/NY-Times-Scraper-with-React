@@ -28,7 +28,7 @@ class Saved extends Component {
 
   deleteArticle = id => {
     API.deleteArticle(id)
-      .then(res => this.deleteArticle())
+      .then(res => this.loadArticles())
       .catch(err => console.log(err));
   };
 
@@ -45,12 +45,14 @@ class Saved extends Component {
                   
                   <ListItem 
                       key={article._id} 
-                      href= {article.urll}
+                      href= {article.url}
                       title = {article.title}  
                       date={article.date}                  
                       >
                       
                     <SaveBtn 
+                    buttonstyle={"btn btn-primary float-right"}
+                    buttontext={"Delete"}
                     id = {article._id}
                     onClick={() => this.deleteArticle(article._id)} />
                   </ListItem>

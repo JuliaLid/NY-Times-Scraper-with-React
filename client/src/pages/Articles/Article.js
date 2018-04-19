@@ -178,6 +178,8 @@ class Article extends Component {
                       >
                       
                     <SaveBtn 
+                    buttonstyle={"btn btn-primary float-right"}
+                    buttontext={"Save"}
                     id = {article._id}
                     onClick={() => this.populateDatabase(article._id)} />
                   </ListItem>
