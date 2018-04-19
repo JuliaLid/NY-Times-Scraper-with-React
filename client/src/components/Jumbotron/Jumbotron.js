@@ -1,4 +1,7 @@
 import React from "react";
+import "./Jumbotron.css";
+// import nytimage from "./nytimage.png"
+
 
 const Jumbotron = ({ children }) => (
   <div

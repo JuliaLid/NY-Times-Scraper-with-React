@@ -22,9 +22,10 @@ class Article extends Component {
     endYear: "",
   };
 
-  // componentDidMount() {
-  //   this.loadArticles();
-  // };
+  //Not sure how to deactivate button  
+  // deactivateButton = () => {
+
+  // }
 
   populateDatabase = id => {
     console.log("I'm triggered ", id);
@@ -33,7 +34,7 @@ class Article extends Component {
     console.log(result);  
     // console.log("Saving Article");  
     API.saveArticle (result)
-    // .then(res => this.loadArticles())
+    // .then(res => this.deactivateButton())
     // .then(res => console.log("Success!"))
     
 
